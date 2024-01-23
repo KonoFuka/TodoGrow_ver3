@@ -15,38 +15,65 @@ class ViewController: UIViewController,UITableViewDataSource {
     let realm = try! Realm()
     var items: [TodoItem] = []
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         tableview.dataSource = self
-                tableview.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
-                items = readItems()
+        tableview.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
+        items = readItems()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            items = readItems()
-            tableview.reloadData()
-        }
-        
+        items = readItems()
+        tableview.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section:Int) -> Int{
-            return items.count
-        }
+        return items.count
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemTableViewCell
-            let item: TodoItem = items[indexPath.row]
-            cell.setCell(title: item.title, day: item.day, isMarked: item.isMarked)
-            
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemTableViewCell
+        let item: TodoItem = items[indexPath.row]
+        cell.setCell(title: item.title, day: item.day, isMarked: item.isMarked)
+        
+        return cell
+    }
     
     func readItems() -> [TodoItem]{
-            return Array(realm.objects(TodoItem.self))
-        }
-
-
+        return Array(realm.objects(TodoItem.self))
+    }
+    
 }
 
+//セルのスワイプ
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        
+        //削除のアクション
+        let deleteAction = UIContextualAction(style: .destructive, title: "削除") { [self] (action, view, completionHandler) in
+
+                    print("削除")
+                }
+
+        
+        //編集のアクション
+        let editAction = UIContextualAction(style: .destructive, title: "編集") { [self] (action, view, completionHandler) in
+            
+            let edit = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
+            self.navigationController?.pushViewController(edit, animated: true)
+            
+            edit.number = (indexPath.row)
+            
+            print("編集")
+        }
+        
+        editAction.backgroundColor = UIColor.gray
+        //アクションの設定
+        return UISwipeActionsConfiguration(actions: [deleteAction,editAction])
+    }
+}
