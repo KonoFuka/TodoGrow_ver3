@@ -52,28 +52,36 @@ class ViewController: UIViewController,UITableViewDataSource {
 //セルのスワイプ
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        
+
         //削除のアクション
         let deleteAction = UIContextualAction(style: .destructive, title: "削除") { [self] (action, view, completionHandler) in
 
-                    print("削除")
-                }
+            completionHandler(true)
+            
+            print("削除")
+            
+            tableView.reloadData()
+        }
 
-        
+
         //編集のアクション
         let editAction = UIContextualAction(style: .destructive, title: "編集") { [self] (action, view, completionHandler) in
-            
+
             let edit = self.storyboard?.instantiateViewController(withIdentifier: "EditViewController") as! EditViewController
             self.navigationController?.pushViewController(edit, animated: true)
-            
+
             edit.number = (indexPath.row)
+
+            tableView.reloadData()
+            completionHandler(true)
             
             print("編集")
         }
-        
+
         editAction.backgroundColor = UIColor.gray
+        
         //アクションの設定
-        return UISwipeActionsConfiguration(actions: [deleteAction,editAction])
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction,editAction])
+        return configuration
     }
 }
