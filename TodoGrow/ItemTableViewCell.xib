@@ -16,23 +16,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="yCn-pk-cx8">
-                        <rect key="frame" x="16" y="18" width="44" height="39"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="タイトル" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HHA-Yx-UKD">
                         <rect key="frame" x="68" y="16" width="222" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.58138066529999999" green="0.78060960769999999" blue="0.57056337589999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="YYYY/MM/DD HH:MM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ALJ-jN-ccD">
                         <rect key="frame" x="68" y="45" width="222" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.58138066529999999" green="0.78060960769999999" blue="0.57056337589999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="◯" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzt-hV-E9v">
+                        <rect key="frame" x="16" y="19" width="29" height="36"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                        <color key="textColor" red="0.58138066529999999" green="0.78060960769999999" blue="0.57056337589999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -40,13 +42,10 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="dayLabel" destination="ALJ-jN-ccD" id="D2l-mm-Bvw"/>
-                <outlet property="markImageView" destination="yCn-pk-cx8" id="gnx-Kh-mq9"/>
+                <outlet property="markLabel" destination="hzt-hV-E9v" id="pIa-Y1-n1B"/>
                 <outlet property="titleLabel" destination="HHA-Yx-UKD" id="81w-Yo-Az7"/>
             </connections>
             <point key="canvasLocation" x="36.641221374045799" y="30.633802816901412"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="circle" catalog="system" width="128" height="123"/>
-    </resources>
 </document>

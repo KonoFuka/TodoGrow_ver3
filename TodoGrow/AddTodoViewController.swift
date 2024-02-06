@@ -39,7 +39,11 @@ class AddTodoViewController: UIViewController {
     }
     
     @IBAction func save(){
+        //全データの取得
+        let results = realm.objects(TodoItem.self)
+        
         let item = TodoItem()
+        item.id = results.count + 1
         item.title = titleTextField.text ?? ""
 //        item.day = String(dayPicker.date) ?? ""
 //        item.alarm = String(alarmpicker.date) ?? ""
@@ -49,12 +53,18 @@ class AddTodoViewController: UIViewController {
         
         creareItem(item: item)
         
-        self.dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func creareItem(item: TodoItem) {
         try! realm.write {
             realm.add(item)
+            
+            //全データの取得
+            let results = realm.objects(TodoItem.self)
+            print(results)
+            print(results.count)
+            
         }
     }
     

@@ -9,6 +9,8 @@ import Foundation
 import RealmSwift
 
 class TodoItem: Object {
+    @Persisted var id: Int!
+    
     @Persisted var title: String = ""
     @Persisted var day: String = ""
     @Persisted var alarm: String = ""
@@ -16,5 +18,6 @@ class TodoItem: Object {
     @Persisted var Repeat: String = ""
     @Persisted var content: String = ""
     
+    @Persisted var isdone: Bool = false
 }
 

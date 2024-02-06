@@ -11,7 +11,7 @@ class ItemTableViewCell: UITableViewCell {
     
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var dayLabel: UILabel!
-    @IBOutlet var markImageView: UIImageView!
+    @IBOutlet var markLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,13 +24,26 @@ class ItemTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setCell(title:String, day:String, isMarked:Bool) {
-            titleLabel.text = title
+    
+    //セルの中身のセット
+    func setCell(title:String, day:String, isMarked:Bool, isdone:Bool) {
+        titleLabel.text = title
+        dayLabel.text = ""
+        if isdone {
+            markLabel.text = "●"
+            titleLabel.textColor = UIColor.gray
+            markLabel.textColor = UIColor.gray
+        } else{
+            markLabel.text = "○"
             if isMarked {
-                markImageView.image = UIImage(systemName: "circle.fill")
+                titleLabel.textColor = UIColor(red: 91/255, green: 104/255, blue: 72/255, alpha: 1.0)
+                markLabel.textColor = UIColor(red: 91/255, green: 104/255, blue: 72/255, alpha: 1.0)
             } else{
-                markImageView.image = UIImage(systemName: "circle")
+                titleLabel.textColor = UIColor(red: 132/255, green: 189/255, blue: 127/255, alpha: 1.0)
+                markLabel.textColor = UIColor(red: 132/255, green: 189/255, blue: 127/255, alpha: 1.0)
             }
         }
+        
+    }
     
 }

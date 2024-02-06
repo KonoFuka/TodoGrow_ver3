@@ -12,18 +12,25 @@ class ViewController: UIViewController,UITableViewDataSource {
     
     @IBOutlet var tableview: UITableView!
     
+    var todoCount: Int = 0
+    
     let realm = try! Realm()
     var items: [TodoItem] = []
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         tableview.dataSource = self
+        tableview.delegate = self
         tableview.register(UINib(nibName: "ItemTableViewCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
         items = readItems()
         
+        //セルの高さの設定
+        tableview.rowHeight = 75
+        
+        // 全データの取得
+        let results = realm.objects(TodoItem.self)
+        print(results)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,8 +44,9 @@ class ViewController: UIViewController,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemTableViewCell
+        
         let item: TodoItem = items[indexPath.row]
-        cell.setCell(title: item.title, day: item.day, isMarked: item.isMarked)
+        cell.setCell(title: item.title, day: item.day, isMarked: item.isMarked, isdone: item.isdone)
         
         return cell
     }
@@ -47,6 +55,41 @@ class ViewController: UIViewController,UITableViewDataSource {
         return Array(realm.objects(TodoItem.self))
     }
     
+    
+    //セルのタップ
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let target = items[indexPath.row]
+        if target.isdone == true{
+            print("\(indexPath.row)番目が解除")
+            todoCount -= 1
+            do{
+              try realm.write{
+                  target.isdone = false
+              }
+            }catch {
+              print("Error \(error)")
+            }
+        }else {
+            print("\(indexPath.row)番目が完了")
+            todoCount += 1
+            do{
+              try realm.write{
+                  target.isdone = true
+              }
+            }catch {
+              print("Error \(error)")
+            }
+        }
+        items = readItems()
+        tableview.reloadData()
+        
+        print("\(todoCount)個完了")
+        
+        let nextView = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        
+        nextView.todoCount = todoCount
+        }
 }
 
 //セルのスワイプ
@@ -55,17 +98,20 @@ extension ViewController: UITableViewDelegate {
 
         //削除のアクション
         let deleteAction = UIContextualAction(style: .destructive, title: "削除") { [self] (action, view, completionHandler) in
-
             completionHandler(true)
+            print("\(indexPath.row)番目の削除")
             
-            print("削除")
-            
+            let target = items[indexPath.row]
+            do{
+              try realm.write{
+                realm.delete(target)
+              }
+            }catch {
+              print("Error \(error)")
+            }
+            items = readItems()
             tableView.reloadData()
         }
-        
-        
-        
-        
 
         //編集のアクション
         let editAction = UIContextualAction(style: .destructive, title: "編集") { [self] (action, view, completionHandler) in
@@ -78,10 +124,10 @@ extension ViewController: UITableViewDelegate {
             tableView.reloadData()
             completionHandler(true)
             
-            print("編集")
+            print("\(indexPath.row)番目の編集")
         }
-
-        editAction.backgroundColor = UIColor.gray
+        
+        editAction.backgroundColor = UIColor(red: 132/255, green: 189/255, blue: 127/255, alpha: 1.0)
         
         //アクションの設定
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction,editAction])
