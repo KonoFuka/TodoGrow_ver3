@@ -22,20 +22,63 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        todoCount = 20
+        level = 0
+        levelCount = 0
 
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         print("\(todoCount)個完了(ホーム)")
+        
+        if level <= 1{
+            treeImageView.image = UIImage(named: "tree1")
+        } else if level <= 5{
+            treeImageView.image = UIImage(named: "tree2")
+        } else if level <= 10 {
+            treeImageView.image = UIImage(named: "tree3")
+        } else if level <= 20 {
+            treeImageView.image = UIImage(named: "tree4")
+        } else if level <= 40 {
+            treeImageView.image = UIImage(named: "tree5")
+        } else if level <= 65 {
+            treeImageView.image = UIImage(named: "tree6")
+        } else if level <= 99 {
+            treeImageView.image = UIImage(named: "tree7")
+        } else if level >= 100 {
+            treeImageView.image = UIImage(named: "tree8")
+        }
     }
     
     @IBAction func water() {
-        if todoCount > 1 {
+        if todoCount >= 1 {
+            todoCount -= 1
             levelCount += 1
-            if levelCount >= 10 {
+            print("水やり\(levelCount)残り\(todoCount)")
+            if levelCount >= 5 {
                 level += 1
+                levelCount = 0
+                print("レベル\(level)")
+                if level <= 1{
+                    treeImageView.image = UIImage(named: "tree1")
+                } else if level <= 2{
+                    treeImageView.image = UIImage(named: "tree2")
+                } else if level <= 3 {
+                    treeImageView.image = UIImage(named: "tree3")
+                } else if level <= 20 {
+                    treeImageView.image = UIImage(named: "tree4")
+                } else if level <= 40 {
+                    treeImageView.image = UIImage(named: "tree5")
+                } else if level <= 65 {
+                    treeImageView.image = UIImage(named: "tree6")
+                } else if level <= 99 {
+                    treeImageView.image = UIImage(named: "tree7")
+                } else if level >= 100 {
+                    treeImageView.image = UIImage(named: "tree8")
+                }
+            
             }
         }
     }
