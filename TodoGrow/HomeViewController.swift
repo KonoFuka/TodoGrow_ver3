@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class HomeViewController: UIViewController {
     
@@ -14,16 +15,16 @@ class HomeViewController: UIViewController {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var levelLabel: UILabel!
     
-    var todoCount: Int!
     var levelCount: Int!
     var level: Int!
     
     var outputValue : Int!
+    
+    let realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        todoCount = 20
         level = 0
         levelCount = 0
 
@@ -31,7 +32,6 @@ class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("\(todoCount)個完了(ホーム)")
         
         if level <= 1{
             treeImageView.image = UIImage(named: "tree1")
@@ -53,10 +53,14 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func water() {
+        
+//        let todoCount = realm.objects(TodoCount.self).value(forKey: "todocount")
+        var todoCount = 20
+        
         if todoCount >= 1 {
             todoCount -= 1
             levelCount += 1
-            print("水やり\(levelCount)残り\(todoCount)")
+//            print("水やり\(levelCount)残り\(todoCount)")
             if levelCount >= 5 {
                 level += 1
                 levelCount = 0

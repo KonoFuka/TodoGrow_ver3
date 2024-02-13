@@ -55,6 +55,7 @@ class EditViewController: UIViewController {
         print("これ", items[number])
         
         let selectedItem: TodoItem = items[number]
+        
         //受け取った番号の情報をパーツを表示する
         titleTextField.text = (selectedItem.title)
         importanceSwitch.isOn = (selectedItem.isMarked)

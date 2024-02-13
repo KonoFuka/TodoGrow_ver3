@@ -21,3 +21,11 @@ class TodoItem: Object {
     @Persisted var isdone: Bool = false
 }
 
+class TodoCount: Object {
+    @Persisted var todocount: Int = 0
+}
+
+class WaterCount: Object {
+    @Persisted var water: Int = 0
+}
+

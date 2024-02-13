@@ -12,10 +12,11 @@ class ViewController: UIViewController,UITableViewDataSource {
     
     @IBOutlet var tableview: UITableView!
     
-    var todoCount: Int = 0
-    
     let realm = try! Realm()
     var items: [TodoItem] = []
+    var doneTask: [TodoCount] = []
+    
+    let userDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,8 @@ class ViewController: UIViewController,UITableViewDataSource {
         // 全データの取得
         let results = realm.objects(TodoItem.self)
         print(results)
+        
+        let todoCount = realm.objects(TodoCount.self).value(forKey: "todocount")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,38 +61,49 @@ class ViewController: UIViewController,UITableViewDataSource {
     
     //セルのタップ
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         let target = items[indexPath.row]
+        
+        doneTask[0].todocount = 0
+//        doneTask[0].todocount += 1
+        print(doneTask)
+        
+        
+        
         if target.isdone == true{
             print("\(indexPath.row)番目が解除")
-            todoCount -= 1
+            
             do{
-              try realm.write{
-                  target.isdone = false
-              }
+                try realm.write{
+                    target.isdone = false
+                }
             }catch {
-              print("Error \(error)")
+                print("Error \(error)")
             }
         }else {
             print("\(indexPath.row)番目が完了")
-            todoCount += 1
+            
             do{
-              try realm.write{
-                  target.isdone = true
-              }
+                try realm.write{
+//                    TodoCount.todocount += 1
+                }
             }catch {
-              print("Error \(error)")
+                print("Error \(error)")
+            }
+            
+            do{
+                try realm.write{
+                    target.isdone = true
+                }
+            }catch {
+                print("Error \(error)")
             }
         }
         items = readItems()
         tableview.reloadData()
         
-        print("\(todoCount)個完了")
-        
-        let nextView = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        
-        nextView.todoCount = todoCount
-        }
+        //        print("\(todoCount)個完了")
+    }
 }
 
 //セルのスワイプ
