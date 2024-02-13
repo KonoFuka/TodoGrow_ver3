@@ -14,7 +14,8 @@ class ViewController: UIViewController,UITableViewDataSource {
     
     let realm = try! Realm()
     var items: [TodoItem] = []
-    var doneTask: [TodoCount] = []
+
+    let todoCount = TodoCount()
     
     let userDefaults = UserDefaults.standard
     
@@ -64,12 +65,6 @@ class ViewController: UIViewController,UITableViewDataSource {
         
         let target = items[indexPath.row]
         
-        doneTask[0].todocount = 0
-//        doneTask[0].todocount += 1
-        print(doneTask)
-        
-        
-        
         if target.isdone == true{
             print("\(indexPath.row)番目が解除")
             
@@ -85,14 +80,13 @@ class ViewController: UIViewController,UITableViewDataSource {
             
             do{
                 try realm.write{
-//                    TodoCount.todocount += 1
-                }
-            }catch {
-                print("Error \(error)")
-            }
-            
-            do{
-                try realm.write{
+                    if let existingTodoCount = realm.objects(TodoCount.self).first {
+                        existingTodoCount.todocount += 1
+                    } else {
+                        let newTodoCount = TodoCount()
+                        newTodoCount.todocount = 1
+                        realm.add(newTodoCount)
+                    }
                     target.isdone = true
                 }
             }catch {
