@@ -60,6 +60,14 @@ class EditViewController: UIViewController {
         titleTextField.text = (selectedItem.title)
         importanceSwitch.isOn = (selectedItem.isMarked)
         contentTextField.text = (selectedItem.content)
+        
+        //ステータスバー
+        var appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = #colorLiteral(red: 0.582303226, green: 0.7785794139, blue: 0.5700367689, alpha: 1)
+        appearance.titleTextAttributes = [.foregroundColor:UIColor.white]
+        self.navigationItem.standardAppearance = appearance
+        self.navigationItem.scrollEdgeAppearance = appearance
     }
     
     func readItems() -> [TodoItem]{
