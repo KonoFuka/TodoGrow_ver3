@@ -19,6 +19,8 @@ class ViewController: UIViewController,UITableViewDataSource {
     
     let userDefaults = UserDefaults.standard
     
+    @IBOutlet var popUp : UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -43,6 +45,7 @@ class ViewController: UIViewController,UITableViewDataSource {
         appearance.titleTextAttributes = [.foregroundColor:UIColor.white]
         self.navigationItem.standardAppearance = appearance
         self.navigationItem.scrollEdgeAppearance = appearance
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +70,22 @@ class ViewController: UIViewController,UITableViewDataSource {
         return Array(realm.objects(TodoItem.self))
     }
     
+    //popupbuttonの設定
+    func popupButton(){
+        popUp.menu = UIMenu(children: [
+            UIAction(title: "1つ目", state: .on, handler:{_ in
+               
+            }),
+            UIAction(title: "2つ目", state: .on, handler:{_ in
+            
+            }),
+            UIAction(title: "3つ目", state: .on, handler:{_ in
+            
+            })
+        ])
+        popUp.showsMenuAsPrimaryAction = true
+        popUp.changesSelectionAsPrimaryAction = true
+    }
     
     //セルのタップ
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -103,8 +122,6 @@ class ViewController: UIViewController,UITableViewDataSource {
         }
         items = readItems()
         tableview.reloadData()
-        
-        //        print("\(todoCount)個完了")
     }
 }
 

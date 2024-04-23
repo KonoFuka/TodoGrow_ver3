@@ -13,6 +13,7 @@ class TodoItem: Object {
     
     @Persisted var title: String = ""
     @Persisted var day: String = ""
+    @Persisted var time: String = ""
     @Persisted var alarm: String = ""
     @Persisted var isMarked: Bool = false
     @Persisted var Repeat: String = ""

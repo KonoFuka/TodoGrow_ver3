@@ -13,7 +13,6 @@ class AddTodoViewController: UIViewController {
     
     @IBOutlet var titleTextField: UITextField!
     
-    @IBOutlet var dayButton: UIButton!
     @IBOutlet var dayPicker: UIDatePicker!
     
     @IBOutlet var importanceSwitch: UISwitch!
@@ -27,8 +26,6 @@ class AddTodoViewController: UIViewController {
     @IBOutlet var repeatpicker: UIPickerView!
     
     @IBOutlet var contentTextField: UITextField!
-    
-    
     
     let realm = try! Realm()
 
@@ -50,10 +47,15 @@ class AddTodoViewController: UIViewController {
         //全データの取得
         let results = realm.objects(TodoItem.self)
         
+        //日付のデータを変換
+        let dayStr = DateUtils.stringFromDate(date: dayPicker.date, format: "yyyy/MM/dd HH:mm")
+        print(dayStr)
+        
+        //保存
         let item = TodoItem()
         item.id = results.count + 1
         item.title = titleTextField.text ?? ""
-//        item.day = String(dayPicker.date) ?? ""
+        item.day = dayStr
 //        item.alarm = String(alarmpicker.date) ?? ""
 //        item.Repeat = String(repeatpicker) ?? ""
         item.isMarked = importanceSwitch.isOn
@@ -88,3 +90,20 @@ class AddTodoViewController: UIViewController {
     */
 
 }
+
+class DateUtils {
+    class func dateFromString(string: String, format: String) -> Date {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.date(from: string)!
+    }
+
+    class func stringFromDate(date: Date, format: String) -> String {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
+}
+

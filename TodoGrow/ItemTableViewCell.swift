@@ -28,11 +28,12 @@ class ItemTableViewCell: UITableViewCell {
     //セルの中身のセット
     func setCell(title:String, day:String, isMarked:Bool, isdone:Bool) {
         titleLabel.text = title
-        dayLabel.text = ""
+        dayLabel.text = day
         if isdone {
             markLabel.text = "●"
             titleLabel.textColor = UIColor.gray
             markLabel.textColor = UIColor.gray
+            
         } else{
             markLabel.text = "○"
             if isMarked {

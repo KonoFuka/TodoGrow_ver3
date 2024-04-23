@@ -31,6 +31,8 @@ class EditViewController: UIViewController {
     
     var saveButtonItem: UIBarButtonItem!
     
+    var dayStr: String!
+    
     //セルの番号
     var number:Int!
     
@@ -55,12 +57,15 @@ class EditViewController: UIViewController {
         print("これ", items[number])
         
         let selectedItem: TodoItem = items[number]
+        let day = DateUtils.dateFromString(string: selectedItem.day, format: "yyyy/MM/dd HH:mm")
+        print(day)
         
         //受け取った番号の情報をパーツを表示する
         titleTextField.text = (selectedItem.title)
         importanceSwitch.isOn = (selectedItem.isMarked)
         contentTextField.text = (selectedItem.content)
-        
+        dayPicker.date = day
+    
         //ステータスバー
         var appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -76,11 +81,17 @@ class EditViewController: UIViewController {
     
     @objc func saveButtonPressed(_ sender: UIBarButtonItem) {
         let results = realm.objects(TodoItem.self)
+        
+        //日付を変換
+        dayStr = DateUtils2.stringFromDate(date: dayPicker.date, format: "yyyy/MM/dd HH:mm")
+        print("dayday")
+        print(dayStr)
 
+        //保存
         let item = TodoItem()
 //        item.id = results.count + 1
         item.title = titleTextField.text ?? ""
-//        item.day = String(dayPicker.date) ?? ""
+        item.day = dayStr
 //        item.alarm = String(alarmpicker.date) ?? ""
 //        item.Repeat = String(repeatpicker) ?? ""
         item.isMarked = importanceSwitch.isOn
@@ -99,11 +110,12 @@ class EditViewController: UIViewController {
             target.title = titleTextField.text ?? ""
             target.isMarked = importanceSwitch.isOn
             target.content = contentTextField.text ?? ""
+            target.day = dayStr
 
             //全データの取得
             let results = realm.objects(TodoItem.self)
             print(results)
-            print(results.count)
+            print(results.count, "個")
 
         }
     }
@@ -121,4 +133,20 @@ class EditViewController: UIViewController {
     }
     */
 
+}
+
+class DateUtils2 {
+    class func dateFromString(string: String, format: String) -> Date {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.date(from: string)!
+    }
+
+    class func stringFromDate(date: Date, format: String) -> String {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
 }
